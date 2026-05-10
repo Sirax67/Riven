@@ -1,65 +1,504 @@
-import Image from "next/image";
+'use client';
+
+import { useEffect, useState, useRef } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+
+import CharactersCarousel from '@/components/carusel';
+import { BookImage, ChevronRight, BookOpen, Sparkles } from 'lucide-react';
+import Header from '@/components/ui/header';
+import Footer from '@/components/ui/footer';
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+    <div className='overflow-hidden'>
+      <Header/>
+      <Welcome/>
+      <About/>
+      <Characters/>
+      <History/>
+      <Footer/>
     </div>
   );
+}
+
+
+function useScrollAnimation() {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLElement | null>(null);
+  const [hasAnimated, setHasAnimated] = useState(false); // Для однократной анимации
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAnimated) {
+          setIsVisible(true);
+          setHasAnimated(true);
+        }
+      },
+      {
+        threshold: 0.1, // Уменьшили до 10% для более быстрого срабатывания
+        rootMargin: '0px 0px 0px 0px'
+      }
+    );
+
+    const currentRef = ref.current;
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, [hasAnimated]);
+
+  return { ref, isVisible };
+}
+
+function Welcome() {
+  const { ref, isVisible } = useScrollAnimation();
+  const [scrollY, setScrollY] = useState(0);
+  const rafRef = useRef<number | null>(null);
+
+  // Оптимизированный параллакс с requestAnimationFrame
+  useEffect(() => {
+    let ticking = false;
+
+    const handleScroll = () => {
+      if (!ticking) {
+        rafRef.current = requestAnimationFrame(() => {
+          const scrollPos = window.scrollY;
+          setScrollY(scrollPos);
+          document.documentElement.style.setProperty('--scrollTop', `${scrollPos}px`);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Инициализация
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+      }
+    };
+  }, []);
+
+  return (
+    <section 
+      ref={ref as any}
+      id="welcome" 
+      className={`relative h-screen w-screen overflow-hidden transition-all duration-1000 ease-out will-change-transform
+        ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+      style={{ willChange: 'opacity, transform' }}
+    >
+      {/* Слой 1 - задний фон */}
+      <div 
+        className="w-full absolute h-full bg-no-repeat z-0 overflow-hidden will-change-transform"
+        style={{ 
+          transform: `translate3d(0, ${scrollY / 1.6}px, 0)`,
+          willChange: 'transform'
+        }}
+      >
+        <Image
+          className='object-center object-cover'
+          alt='Back'
+          src="/images/welcome/Back_2 (2).png"
+          fill
+          priority
+          sizes="100vw"
+          quality={90}
+        />
+      </div>
+
+      {/* Слой 2 */}
+      <div 
+        className="w-full absolute h-full bg-no-repeat z-10 overflow-hidden will-change-transform"
+        style={{ 
+          transform: `translate3d(0, ${scrollY / 1.6}px, 0)`,
+          willChange: 'transform'
+        }}
+      >
+        <Image
+          className='object-center object-cover'
+          alt='middle'
+          src="/images/welcome/SecondLayer (2).png"
+          fill
+          priority
+          sizes="100vw"
+          quality={90}
+        />
+      </div>
+
+      {/* Слой 3 - коза */}
+      <div 
+        className="w-full absolute h-full bg-no-repeat z-20 overflow-hidden will-change-transform"
+        style={{ 
+          transform: `translate3d(0, ${scrollY / 2}px, 0)`,
+          willChange: 'transform'
+        }}
+      >
+        <Image
+          className='object-center object-cover'
+          alt='koza'
+          src="/images/welcome/Nyasha (2).png"
+          fill
+          priority
+          sizes="100vw"
+          quality={90}
+        />
+      </div>
+
+      {/* Слой 4 - передний фон */}
+      <div 
+        className="w-full absolute h-full bg-no-repeat z-30 overflow-hidden will-change-transform"
+        style={{ 
+          transform: `translate3d(0, ${scrollY / 4}px, 0)`,
+          willChange: 'transform'
+        }}
+      >
+        <Image
+          className='object-center object-cover'
+          alt='front'
+          src="/images/welcome/Front_2 (3).png"
+          fill
+          priority
+          sizes="100vw"
+          quality={90}
+        />
+      </div>
+      
+      {/* Логотип */}
+      <div className='absolute bottom-0 left-0 aspect-video h-[10vw] max-h-40 min-h-20 z-40 ml-4 md:ml-8 mb-4 md:mb-8'>
+        <Image
+          className='object-contain object-left-bottom'
+          src="/images/logo.svg"
+          alt='logo'
+          fill
+          priority
+        />
+      </div>
+    </section>
+  );
+}
+
+function About () {
+  const { ref, isVisible } = useScrollAnimation();
+  const [rotateX, setRotateX] = useState(0);
+  const [rotateY, setRotateY] = useState(0);
+  const [isLargeScreen, setIsLargeScreen] = useState(false);
+  const [isMouseInside, setIsMouseInside] = useState(false);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsLargeScreen(window.innerWidth >= 1024); 
+    };
+    
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
+
+  useEffect(() => {
+    if (!isLargeScreen) return;
+    
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isMouseInside) return;
+      
+      const x = (e.clientX - window.innerWidth / 2) * -0.012;
+      const y = (e.clientY - window.innerHeight / 2) * -0.012;
+      
+      setRotateY(x);
+      setRotateX(y);
+    };
+
+    const resetRotation = () => {
+      setRotateX(0);
+      setRotateY(0);
+    };
+    
+    window.addEventListener("mousemove", handleMouseMove);
+    
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      resetRotation();
+    };
+  }, [isLargeScreen, isMouseInside]);
+
+  return (
+    <section 
+      ref={ref as any}
+      id="about"
+      className={`
+        relative min-h-screen min-w-screen 
+        overflow-hidden 
+        flex justify-center items-center
+        transition-all duration-1000 ease-out delay-100
+        ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}
+      `}
+      style={{ perspective: isLargeScreen ? '3000px' : 'none' }}
+      onMouseEnter={() => setIsMouseInside(true)}
+      onMouseLeave={() => {
+        setIsMouseInside(false);
+        setRotateX(0);
+        setRotateY(0);
+      }}
+    >
+      <div 
+        className='w-[110%] absolute h-[110%] bg-no-repeat z-40 overflow-hidden' 
+        style={{ 
+          transform: isLargeScreen 
+            ? `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translate3d(0, calc(var(--scrollTop, 0) / 60), 0)`
+            : 'translate3d(0, calc(var(--scrollTop, 0) / 60), 0)',
+          transformStyle: isLargeScreen ? 'preserve-3d' : 'flat',
+          willChange: "transform",
+          transition: isLargeScreen && !isMouseInside ? 'transform 0.5s ease-out' : 'none',
+        }}
+      >
+        <Image
+          className='object-center object-cover'
+          alt='front'
+          src="/images/about/AboutGrass.png"
+          fill
+        />
+      </div>
+
+      <div
+        className='
+          flex gap-12 p-6 sm:p-12 
+          w-full h-auto
+          absolute z-40 
+          rounded-3xl 
+          lg:flex-row flex-col
+          px-4 sm:px-8 md:px-12
+        '
+        style={{ 
+          transform: isLargeScreen 
+            ? `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(-55px) scale(1.06)`
+            : 'none',
+          transition: isLargeScreen && !isMouseInside ? 'transform 0.5s ease-out' : 'none',
+        }}
+      >
+        <div className='
+          mx-auto
+          p-4 sm:p-10 md:p-12 
+          w-full max-w-190
+          bg-white rounded-3xl 
+          text-[clamp(4px,4vw,16px)] md:text-base
+          flex lg:flex-row flex-col 
+          gap-4 sm:gap-10 md:gap-12
+          items-center justify-center 
+          shadow-xl
+        '>
+
+          <div className='relative w-full h-50 rounded-3xl lg:w-70 lg:h-70'>
+            <Image 
+              src="/images/about/house.png"
+              alt="house"
+              fill
+            />
+          </div>
+
+          <div className='
+            flex flex-col 
+            gap-4 
+            text-blue-950 z-30
+          '>
+            <h2 className='
+              text-[clamp(14px,4vw,24px)] md:text-2xl 
+              font-bold text-blue-950
+            '> 
+              О мире
+            </h2>
+            <p className='lg:max-w-[40ch] text-sm sm:text-base'>
+              Никогда не знаешь, что тебя ждёт и как повернётся твоя жизнь. 
+              Ещё вчера Козетта собирала в лесу лечебные травы, а сегодня её мир 
+              рухнул в одночасье. Она столкнулась с горем, которое не каждому 
+              под силу пережить. Как же она справится? И что будет дальше?
+            </p>
+            <Link 
+              href='/StoryReader'
+              className='
+                group
+                mt-2
+                flex items-center justify-between
+                p-4
+                bg-gradient-to-r from-[#101a42] to-[#1242a8]
+                bg-[length:200%_auto]
+                hover:bg-[position:99%_0]
+                backdrop-blur-sm
+                border border-white/20
+                rounded-xl 
+                w-full 
+                transition-all 
+                duration-500
+                hover:scale-105
+                lg:hover:scale-110
+              '>
+              <div className='flex gap-3 items-center text-[clamp(2px,4vw,16px)] text-white font-medium'>
+                <BookOpen size={20} className='text-white/80 group-hover:rotate-12 transition-transform duration-300' />
+                Читать с первой главы 
+              </div>
+              <ChevronRight size={24} className='text-white/70 group-hover:translate-x-1 transition-transform duration-300' /> 
+            </Link>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Characters () {
+   const { ref, isVisible } = useScrollAnimation();
+  return (
+    <section 
+      ref={ref as any}
+      id="characters"  // Добавьте этот id
+      className={`
+        lg:h-screen w-screen flex flex-col relative justify-center pt-20 lg:p-0
+        transition-all duration-1000 ease-out delay-200
+        ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}
+      `}>
+      <div className='w-full absolute h-full bg-no-repeat z-30 pointer-events-none'>
+        <Image
+          className='object-center object-cover pointer-events-none'
+          alt='front'
+          src="/images/about/AboutGrass.png"
+          fill
+        ></Image>
+      </div>
+      
+    <h2 className='text-[clamp(20px,4vw,30px)] md:text-3xl w-full text-center font-bold text-white mb-6'>
+        Персонажи
+    </h2>
+     <div className="overflow-x-hidden"> 
+        <CharactersCarousel/>
+      </div>
+        
+
+    </section>
+  )
+}
+
+function History () {
+  const { ref, isVisible } = useScrollAnimation();
+  return(
+    <section 
+      ref={ref as any}
+      id="history"
+      className={`
+        min-h-screen w-screen flex flex-col
+        transition-all duration-1000 ease-out delay-300
+        ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}
+      `}
+      style={{perspective: '3000px'}}
+    >
+      <div 
+        
+        className='
+          w-full absolute h-full bg-no-repeat z-30 pointer-events-none
+        '>
+        <Image
+          className='object-center object-cover pointer-events-none'
+          alt='front'
+          src="/images/about/AboutGrass.png"
+          fill
+        ></Image>
+      </div>
+      <div className='flex flex-col gap-20 m-auto w-full p-12' 
+       
+        >
+        <h2 className='text-[clamp(20px,4vw,30px)] md:text-3xl w-full text-center font-bold'>
+          История
+        </h2>
+        <div className='flex gap-12 lg:flex-row flex-col justify-center items-center'>
+          <div className='flex flex-col gap-6 justify-center w-full items-center lg:max-w-70'>
+            <Link 
+              href='/StoryReader'
+              className='
+                group
+                mt-2
+                flex items-center justify-between
+                p-4
+                bg-gradient-to-r from-[#030a22] to-[#071d64af]
+                border-white/10 border
+                rounded-xl 
+                w-full 
+                transition-all 
+                duration-500
+                hover:scale-105
+                lg:hover:scale-110
+              '>
+              <div className='flex gap-3 items-center text-[clamp(2px,4vw,16px)] text-white font-medium'>
+                <BookOpen size={20} className='text-white/80 group-hover:rotate-12 transition-transform duration-300' />
+                Читать с первой главы
+              </div>
+              <ChevronRight size={24} className='text-white/70 group-hover:translate-x-1 transition-transform duration-300' /> 
+            </Link>
+
+            <Link 
+              href='/StoryReader'
+              className='
+                group
+                mt-2
+                flex items-center justify-between
+                p-4
+                bg-gradient-to-r from-[#030a22] to-[#071d64af]
+                border-white/10 border
+                rounded-xl 
+                w-full 
+                transition-all 
+                duration-500
+                hover:scale-105
+                lg:hover:scale-110
+              '>
+              <div className='flex gap-3 items-center text-[clamp(2px,4vw,16px)] text-white font-medium'>
+                <Sparkles size={20} className='text-white/80 group-hover:rotate-12 transition-transform duration-300' />
+                Дополнительный сюжет
+              </div>
+              <ChevronRight size={24} className='text-white/70 group-hover:translate-x-1 transition-transform duration-300' /> 
+            </Link>
+
+            <Link 
+              href='/Gallery'
+              className='
+                group
+                mt-2
+                flex items-center justify-between
+                p-4
+                bg-gradient-to-r from-[#030a22] to-[#071d64af]
+                border-white/10 border
+                rounded-xl 
+                w-full 
+                transition-all 
+                duration-500
+                hover:scale-105
+                lg:hover:scale-110
+              '>
+                 <div className='flex gap-4 text-[clamp(2px,4vw,16px)]'>
+                  <BookImage size={20} className='text-white/80 group-hover:rotate-12 transition-transform duration-300' />
+                  Галерея 
+                </div>
+              
+              <ChevronRight size={24} className='text-white/70 group-hover:translate-x-1 transition-transform duration-300' /> 
+            </Link>
+          </div>
+          <div className='relative rounded-3xl aspect-video w-full lg:w-110'>
+            <Image 
+              src="/images/history/world.png"
+              alt="/"
+              fill
+              ></Image>
+          </div>
+        </div>
+      </div>
+      
+    </section>
+  )
 }
