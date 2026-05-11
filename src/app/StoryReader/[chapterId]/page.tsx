@@ -134,7 +134,7 @@ export default function ChapterPage() {
               {chapters.map((ch) => (
                 <Link
                   key={ch.id}
-                  href={`/story/${ch.id}`}
+                  href={`/StoryReader/${ch.id}`}
                   onClick={() => setIsChaptersOpen(false)}
                   className={`block w-full text-left p-3 rounded-lg transition-all duration-300 border border-white/10 ${
                     ch.id === chapterId
