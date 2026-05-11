@@ -9,6 +9,7 @@ import { BookImage, ChevronRight, BookOpen, Sparkles } from 'lucide-react';
 import Header from '@/components/ui/header';
 import Footer from '@/components/ui/footer';
 
+
 export default function Home() {
   return (
     <div className='overflow-hidden'>
@@ -236,11 +237,19 @@ function About () {
       ref={ref as any}
       id="about"
       className={`
-        relative min-h-screen min-w-screen 
-        overflow-hidden 
-        flex justify-center items-center
-        transition-all duration-1000 ease-out delay-100
-        ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}
+        relative 
+    min-w-screen 
+    overflow-hidden 
+    flex 
+    justify-center 
+    items-center
+    transition-all 
+    duration-1000 
+    ease-out 
+    delay-100
+    lg:min-h-screen
+    min-h-min
+    ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}
       `}
       style={{ perspective: isLargeScreen ? '3000px' : 'none' }}
       onMouseEnter={() => setIsMouseInside(true)}
@@ -251,7 +260,7 @@ function About () {
       }}
     >
       <div 
-        className='w-[110%] absolute h-[110%] bg-no-repeat z-40 overflow-hidden' 
+        className='w-[115%] absolute h-[115%] bg-no-repeat z-40 overflow-hidden' 
         style={{ 
           transform: isLargeScreen 
             ? `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translate3d(0, calc(var(--scrollTop, 0) / 60), 0)`
@@ -277,10 +286,11 @@ function About () {
           rounded-3xl 
           lg:flex-row flex-col
           px-4 sm:px-8 md:px-12
+          
         '
         style={{ 
           transform: isLargeScreen 
-            ? `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(-55px) scale(1.06)`
+            ? `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(-85px) scale(1.06)`
             : 'none',
           transition: isLargeScreen && !isMouseInside ? 'transform 0.5s ease-out' : 'none',
         }}
@@ -294,7 +304,7 @@ function About () {
           flex lg:flex-row flex-col 
           gap-4 sm:gap-10 md:gap-12
           items-center justify-center 
-          shadow-xl
+          shadow-[0_0_40px_rgba(190,228,255,0.3)]
         '>
 
           <div className='relative w-full h-50 rounded-3xl lg:w-70 lg:h-70'>
@@ -326,10 +336,9 @@ function About () {
               href='/StoryReader'
               className='
                 group
-                mt-2
                 flex items-center justify-between
                 p-4
-                bg-gradient-to-r from-[#101a42] to-[#1242a8]
+                bg-gradient-to-r from-[var(--button-from)] to-[var(--button-light)]
                 bg-[length:200%_auto]
                 hover:bg-[position:99%_0]
                 backdrop-blur-sm
@@ -342,10 +351,10 @@ function About () {
                 lg:hover:scale-110
               '>
               <div className='flex gap-3 items-center text-[clamp(2px,4vw,16px)] text-white font-medium'>
-                <BookOpen size={20} className='text-white/80 group-hover:rotate-12 transition-transform duration-300' />
+                <BookOpen size={20} className='text-white group-hover:rotate-12 transition-transform duration-300' />
                 Читать с первой главы 
               </div>
-              <ChevronRight size={24} className='text-white/70 group-hover:translate-x-1 transition-transform duration-300' /> 
+              <ChevronRight size={24} className='text-white ' /> 
             </Link>
           </div>
         </div>
@@ -359,25 +368,29 @@ function Characters () {
   return (
     <section 
       ref={ref as any}
-      id="characters"  // Добавьте этот id
+      id="characters" 
       className={`
-        lg:h-screen w-screen flex flex-col relative justify-center pt-20 lg:p-0
+        lg:h-screen w-screen 
+        flex flex-col relative justify-center 
+         lg:p-0
         transition-all duration-1000 ease-out delay-200
         ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}
       `}>
+
       <div className='w-full absolute h-full bg-no-repeat z-30 pointer-events-none'>
         <Image
           className='object-center object-cover pointer-events-none'
-          alt='front'
+          alt='Grass'
           src="/images/about/AboutGrass.png"
           fill
         ></Image>
       </div>
       
-    <h2 className='text-[clamp(20px,4vw,30px)] md:text-3xl w-full text-center font-bold text-white mb-6'>
-        Персонажи
-    </h2>
-     <div className="overflow-x-hidden"> 
+      <h2 className='text-[clamp(20px,4vw,30px)] md:text-3xl w-full text-center font-bold text-white mb-6'>
+          Персонажи
+      </h2>
+      
+      <div className="overflow-x-hidden"> 
         <CharactersCarousel/>
       </div>
         
@@ -427,7 +440,7 @@ function History () {
                 flex items-center justify-between
                 p-4
                 bg-gradient-to-r from-[#030a22] to-[#071d64af]
-                border-white/10 border
+                border-white/20 border
                 rounded-xl 
                 w-full 
                 transition-all 
@@ -439,7 +452,7 @@ function History () {
                 <BookOpen size={20} className='text-white/80 group-hover:rotate-12 transition-transform duration-300' />
                 Читать с первой главы
               </div>
-              <ChevronRight size={24} className='text-white/70 group-hover:translate-x-1 transition-transform duration-300' /> 
+              <ChevronRight size={24} className='text-white/80 ' /> 
             </Link>
 
             <Link 
@@ -450,7 +463,7 @@ function History () {
                 flex items-center justify-between
                 p-4
                 bg-gradient-to-r from-[#030a22] to-[#071d64af]
-                border-white/10 border
+                border-white/20 border
                 rounded-xl 
                 w-full 
                 transition-all 
@@ -462,18 +475,17 @@ function History () {
                 <Sparkles size={20} className='text-white/80 group-hover:rotate-12 transition-transform duration-300' />
                 Дополнительный сюжет
               </div>
-              <ChevronRight size={24} className='text-white/70 group-hover:translate-x-1 transition-transform duration-300' /> 
+              <ChevronRight size={24} className='text-white/80 ' /> 
             </Link>
 
             <Link 
               href='/Gallery'
               className='
                 group
-                mt-2
                 flex items-center justify-between
                 p-4
-                bg-gradient-to-r from-[#030a22] to-[#071d64af]
-                border-white/10 border
+                bg-gradient-to-r from-[var(--button-from)] to-[var(--button-to)]
+                border-white/20 border
                 rounded-xl 
                 w-full 
                 transition-all 
@@ -486,10 +498,11 @@ function History () {
                   Галерея 
                 </div>
               
-              <ChevronRight size={24} className='text-white/70 group-hover:translate-x-1 transition-transform duration-300' /> 
+              <ChevronRight size={24} className='text-white/80 ' /> 
             </Link>
           </div>
-          <div className='relative rounded-3xl aspect-video w-full lg:w-110'>
+
+          <div className='relative rounded-3xl aspect-video w-full lg:w-110 shadow-[0_0_40px_rgba(190,228,255,0.3)]'>
             <Image 
               src="/images/history/world.png"
               alt="/"

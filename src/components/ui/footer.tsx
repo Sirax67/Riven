@@ -33,8 +33,10 @@ export default function Footer() {
                 className="object-contain"
               />
             </div>
-            <p className="text-gray-400 text-sm leading-relaxed">
-              Добро пожаловать в мир приключений маленькой козы Няши. Здесь вы найдёте увлекательные истории, красивые иллюстрации и много интересного.
+            <p className="text-gray-400 text-sm leading-relaxed ">
+              Добро пожаловать в мир магии, тайн и судеб, где обычные 
+              люди сталкиваются с необычными событиями. 
+              Познакомьтесь с героями и их историями.
             </p>
           </div>
 

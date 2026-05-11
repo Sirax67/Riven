@@ -3,6 +3,9 @@
 :root {
   --foreground: #ffffff;
   --background: #01000e;
+  --button-from: #040e2e;
+  --button-to: #071d64af;
+  --button-light: #1242a8;
 }
 
 @theme inline {
@@ -11,26 +14,24 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-serif: var(--font-playfair), Georgia, serif;
+  
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #00040f;
+    --background: #01000e;
     --foreground: #ededed;
   }
 }
 
-/* Плавная прокрутка для якорных ссылок */
 html {
     scroll-behavior: smooth;
 }
 
-/* Учитываем фиксированную шапку при прокрутке */
 section {
     scroll-margin-top: 80px; /* Отступ для фиксированной шапки */
 }
 
-/* Для мобильных устройств */
 @media (max-width: 768px) {
     section {
         scroll-margin-top: 70px;

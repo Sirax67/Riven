@@ -245,7 +245,7 @@ export default function CharactersCarousel () {
 
                                 {/* Картинка */}
                                 <div className='flex justify-center items-center mb-6'>
-                                    <div className='relative w-76 h-76 '>
+                                    <div className='relative h-76 w-76 sm:w-76 sm:h-96 '>
                                         <Image
                                             src={slide.src}
                                             alt={slide.alt}
@@ -274,6 +274,7 @@ export default function CharactersCarousel () {
                     z-40
                     absolute left-12 top-1/2 -translate-y-1/2 
                     bg-white hover:shadow-[0_0_20px_rgba(255,255,255,0.5)] 
+                    hover:scale-105
                     rounded-full p-2 
                     transition-all duration-200
                     cursor-pointer
@@ -291,6 +292,7 @@ export default function CharactersCarousel () {
                     z-40
                     absolute right-12 top-1/2 -translate-y-1/2 
                     bg-white hover:shadow-[0_0_20px_rgba(255,255,255,0.5)] 
+                    hover:scale-105
                     rounded-full p-2 shadow-lg 
                     transition-all duration-200
                     cursor-pointer
