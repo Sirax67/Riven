@@ -238,17 +238,16 @@ function About () {
       id="about"
       className={`
         relative 
-    min-w-screen 
-    overflow-hidden 
-    flex 
-    justify-center 
-    items-center
-    transition-all 
-    duration-1000 
-    ease-out 
-    delay-100
-    lg:min-h-screen
-    min-h-min
+        min-w-screen 
+        overflow-hidden 
+        flex 
+        justify-center 
+        items-center
+        transition-all 
+        duration-1000 
+        ease-out 
+        delay-100
+        min-h-screen
     ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}
       `}
       style={{ perspective: isLargeScreen ? '3000px' : 'none' }}
