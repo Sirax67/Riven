@@ -12,7 +12,7 @@ import Footer from '@/components/ui/footer';
 
 export default function Home() {
   return (
-    <div className='overflow-hidden'>
+    <div className='overflow-hidden min-h-screen '>
       <Header/>
       <Welcome/>
       <About/>
@@ -238,16 +238,17 @@ function About () {
       id="about"
       className={`
         relative 
-        min-w-screen 
-        overflow-hidden 
+        w-screen
+        min-h-screen
         flex 
         justify-center 
-        items-center
+        items-start lg:items-center
+        overflow-hidden
         transition-all 
         duration-1000 
         ease-out 
         delay-100
-        min-h-screen
+        
     ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}
       `}
       style={{ perspective: isLargeScreen ? '3000px' : 'none' }}
@@ -281,10 +282,11 @@ function About () {
         className='
           flex gap-12 p-6 sm:p-12 
           w-full h-auto
-          absolute z-40 
+          z-40 
           rounded-3xl 
           lg:flex-row flex-col
           px-4 sm:px-8 md:px-12
+          
           
         '
         style={{ 
