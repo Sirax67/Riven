@@ -72,17 +72,17 @@ export default function Footer() {
             <h3 className="text-white font-bold text-lg">Страницы</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/story" className="text-gray-400 hover:text-white hover:underline transition-colors duration-300 text-sm">
+                <Link href="/StoryReader" className="text-gray-400 hover:text-white hover:underline transition-colors duration-300 text-sm">
                   Читать сюжет
                 </Link>
               </li>
               <li>
-                <Link href="/story" className="text-gray-400 hover:text-white hover:underline transition-colors duration-300 text-sm">
+                <Link href="/AddStory" className="text-gray-400 hover:text-white hover:underline transition-colors duration-300 text-sm">
                   Дополнительный сюжет
                 </Link>
               </li>
               <li>
-                <Link href="/gallery" className="text-gray-400 hover:text-white hover:underline transition-colors duration-300 text-sm">
+                <Link href="/Gallery" className="text-gray-400 hover:text-white hover:underline transition-colors duration-300 text-sm">
                   Галерея
                 </Link>
               </li>

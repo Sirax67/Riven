@@ -31,7 +31,7 @@ export default function ChapterPage() {
 
   if (!chapter) {
     return (
-      <div className="relative min-h-screen bg-gradient-to-b from-[var(--background)] to-[var(--button-from)] flex items-center justify-center">
+      <div className="relative min-h-screen bg-gradient-to-l from-[var(--background)] to-[var(--button-from)] flex items-center justify-center">
         <div className="text-center">
           
           <h1 className="text-4xl font-bold text-white mb-4">404</h1>
