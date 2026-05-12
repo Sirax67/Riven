@@ -308,9 +308,10 @@ function About () {
 
           <div className='relative w-full h-50 rounded-3xl lg:w-70 lg:h-70'>
             <Image 
-              src="/images/about/house.png"
+              src="/images/about/Glass (2).png"
               alt="house"
               fill
+              className='object-center object-cover rounded-3xl'
             />
           </div>
 
