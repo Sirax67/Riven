@@ -3,119 +3,7 @@ import useEmblaCarousel from 'embla-carousel-react';
 import Image from 'next/image';
 import { ChevronRight, ChevronLeft, ChevronDown, ChevronUp } from 'lucide-react';
 import { useCallback, useState, useEffect } from 'react';
-
-const characters = [
-    {
-        id: 1, src: '/images/characters/persons/Kozetta_new.png', alt: 'Козетта',
-        
-        describtion1: 
-        `Семнадцатилетняя девушка из глухой деревни, затерянной среди холмов и леса. 
-        Она энергична, любопытна и обладает той особенной настойчивостью, которая помогает 
-        выживать в суровых условиях.`,
-
-        describtion2: 
-            `Пол - Женский
-            Возраст - 17 лет
-            Рост - 161 см
-            Телосложение - Худощавое
-            Цвет волос - Пепельно-русый
-            Длина и тип волос - Длинные, волнистые
-            Цвет глаз - Тёмно-карие
-            Особые приметы - Маленькая родинка под левым глазом`,
-        gender: 'Женский',
-        age: '17 лет',
-        height:'165 см',
-        bodyType: 'Атлетическое',
-        hairColor: 'Пшеничные',
-        hairLengthAndType: 'Короткие, волнистые',
-        eyeColor: 'Серо-голубые',
-        specialFeatures:'Родинка под глазом, веснушки, механическая левая рука'
-
-    },
-    
-   {
-        id: 2, src: '/images/characters/persons/Kozetta_new.png', alt: 'Козетта',
-        
-        describtion1: 
-        `Семнадцатилетняя девушка из глухой деревни, затерянной среди холмов и леса. 
-        Она энергична, любопытна и обладает той особенной настойчивостью, которая помогает 
-        выживать в суровых условиях.`,
-
-        describtion2: 
-            `Пол - Женский
-            Возраст - 17 лет
-            Рост - 165 см
-            Телосложение - Худощавое
-            Цвет волос - Пепельно-русый
-            Длина и тип волос - Длинные, волнистые
-            Цвет глаз - Тёмно-карие
-            Особые приметы - Маленькая родинка под левым глазом`,
-        gender: 'Женский',
-        age: '17 лет',
-        height:'165 см',
-        bodyType: 'Атлетическое',
-        hairColor: 'Пшеничные',
-        hairLengthAndType: 'Короткие, волнистые',
-        eyeColor: 'Серо-голубые',
-        specialFeatures:'Родинка под глазом, веснушки, механическая правая рука'
-
-    },
-
-   {
-        id: 3, src: '/images/characters/persons/Kozetta_new.png', alt: 'Козетта',
-        
-        describtion1: 
-        `Семнадцатилетняя девушка из глухой деревни, затерянной среди холмов и леса. 
-        Она энергична, любопытна и обладает той особенной настойчивостью, которая помогает 
-        выживать в суровых условиях.`,
-
-        describtion2: 
-            `Пол - Женский
-            Возраст - 17 лет
-            Рост - 165 см
-            Телосложение - Худощавое
-            Цвет волос - Пепельно-русый
-            Длина и тип волос - Длинные, волнистые
-            Цвет глаз - Тёмно-карие
-            Особые приметы - Маленькая родинка под левым глазом`,
-        gender: 'Женский',
-        age: '17 лет',
-        height:'165 см',
-        bodyType: 'Атлетическое',
-        hairColor: 'Пшеничные',
-        hairLengthAndType: 'Короткие, волнистые',
-        eyeColor: 'Серо-голубые',
-        specialFeatures:'Родинка под глазом, веснушки, механическая правая рука'
-
-    },
-    {
-        id: 4, src: '/images/characters/persons/Kozetta_new.png', alt: 'Козетта',
-        
-        describtion1: 
-        `Семнадцатилетняя девушка из глухой деревни, затерянной среди холмов и леса. 
-        Она энергична, любопытна и обладает той особенной настойчивостью, которая помогает 
-        выживать в суровых условиях.`,
-
-        describtion2: 
-            `Пол - Женский
-            Возраст - 17 лет
-            Рост - 165 см
-            Телосложение - Худощавое
-            Цвет волос - Пепельно-русый
-            Длина и тип волос - Длинные, волнистые
-            Цвет глаз - Тёмно-карие
-            Особые приметы - Маленькая родинка под левым глазом`,
-        gender: 'Женский',
-        age: '17 лет',
-        height:'165 см',
-        bodyType: 'Атлетическое',
-        hairColor: 'Пшеничные',
-        hairLengthAndType: 'Короткие, волнистые',
-        eyeColor: 'Серо-голубые',
-        specialFeatures:'Родинка под глазом, веснушки, механическая правая рука'
-
-    },
-];
+import { characters, getAllCharacters, type Character } from '@/app/data/characters';
 
 function ExpandableText({ text, maxLength = 150 }: { text: string; maxLength?: number }) {
     const [isExpanded, setIsExpanded] = useState(false);
@@ -144,7 +32,7 @@ function ExpandableText({ text, maxLength = 150 }: { text: string; maxLength?: n
     );
 }
 
-export default function CharactersCarousel () {
+export default function CharactersCarousel() {
     const [emblaRef, emblaApi] = useEmblaCarousel({
         loop: true,
         align: 'center',
@@ -154,6 +42,7 @@ export default function CharactersCarousel () {
     });
 
     const [selectedIndex, setSelectedIndex] = useState(0);
+    const allCharacters = getAllCharacters();
 
     const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
     const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
@@ -173,10 +62,10 @@ export default function CharactersCarousel () {
     }, [emblaApi, onSelect]);
 
     return(
-       <div className='relative group w-screen h-auto overflow-hidden'>
+        <div className='relative group w-screen h-auto overflow-hidden'>
             <div className='h-full overflow-hidden' ref={emblaRef}>
                 <div className='flex h-full'>
-                    {characters.map((slide, idx) => (
+                    {allCharacters.map((slide: Character, idx: number) => (
                         <div
                             key={slide.id}
                             className='
@@ -188,7 +77,7 @@ export default function CharactersCarousel () {
                             '
                         >
                             {/* Десктопная версия (lg и выше) */}
-                            <div className='hidden lg:flex gap-10 flex-col w-full h-full justify-center '>
+                            <div className='hidden lg:flex gap-10 flex-col w-full h-full justify-center'>
                                 <div className=''>
                                     <div className='
                                         relative
@@ -202,7 +91,7 @@ export default function CharactersCarousel () {
                                             <h3 className='text-xl font-bold text-white'>
                                                 {slide.alt}
                                             </h3>
-                                            <p className='max-w-[25ch]  text-white leading-[180%] '>
+                                            <p className='max-w-[25ch] text-white leading-[180%]'>
                                                 {slide.describtion1}
                                             </p>
                                         </div>
@@ -217,14 +106,14 @@ export default function CharactersCarousel () {
                                         </div>
                                         
                                         <p className='max-w-[30ch] text-white top-24 relative leading-[180%]'>
-                                            Пол - {slide.age}
-                                            <br />  Возраст - {slide.gender}
-                                            <br />  Рост - {slide.height}
+                                            Пол - {slide.gender}
+                                            <br /> Возраст - {slide.age}
+                                            <br /> Рост - {slide.height}
                                             <br /> Телосложение - {slide.bodyType}
-                                            <br />  Цвет волос - {slide.hairColor}
-                                            <br />  Длина и тип волос - {slide.hairLengthAndType}
-                                            <br />  Цвет глаз - {slide.eyeColor}
-                                            <br />  Особые приметы - {slide.specialFeatures}
+                                            <br /> Цвет волос - {slide.hairColor}
+                                            <br /> Длина и тип волос - {slide.hairLengthAndType}
+                                            <br /> Цвет глаз - {slide.eyeColor}
+                                            <br /> Особые приметы - {slide.specialFeatures}
                                         </p>
                                     </div>
                                 </div>
@@ -245,7 +134,7 @@ export default function CharactersCarousel () {
 
                                 {/* Картинка */}
                                 <div className='flex justify-center items-center mb-6'>
-                                    <div className='relative h-76 w-76 sm:w-76 sm:h-96 '>
+                                    <div className='relative h-76 w-76 sm:w-76 sm:h-96'>
                                         <Image
                                             src={slide.src}
                                             alt={slide.alt}
@@ -261,7 +150,6 @@ export default function CharactersCarousel () {
                                     <ExpandableText text={slide.describtion2} maxLength={120} />
                                 </div>
                             </div>
-                            
                         </div>
                     ))}
                 </div>
@@ -272,7 +160,7 @@ export default function CharactersCarousel () {
                 onClick={scrollPrev}
                 className="
                     z-40
-                    absolute left-12 top-1/2 -translate-y-1/2 
+                    absolute left-4 sm:left-8 md:left-12 top-1/2 -translate-y-1/2 
                     bg-white hover:shadow-[0_0_20px_rgba(255,255,255,0.5)] 
                     hover:scale-105
                     rounded-full p-2 
@@ -282,7 +170,7 @@ export default function CharactersCarousel () {
                 "
                 aria-label="Предыдущий слайд"
             >
-                <ChevronLeft className="lg:size-6 size-3 text-gray-800" />
+                <ChevronLeft className="lg:size-6 size-4 text-gray-800" />
             </button>
 
             {/* Кнопка "Вперёд" */}
@@ -290,7 +178,7 @@ export default function CharactersCarousel () {
                 onClick={scrollNext}
                 className="
                     z-40
-                    absolute right-12 top-1/2 -translate-y-1/2 
+                    absolute right-4 sm:right-8 md:right-12 top-1/2 -translate-y-1/2 
                     bg-white hover:shadow-[0_0_20px_rgba(255,255,255,0.5)] 
                     hover:scale-105
                     rounded-full p-2 shadow-lg 
@@ -300,11 +188,11 @@ export default function CharactersCarousel () {
                 "
                 aria-label="Следующий слайд"
             >
-                <ChevronRight className="lg:size-6 size-3 text-gray-800" />
+                <ChevronRight className="lg:size-6 size-4 text-gray-800" />
             </button>
 
             <div className="flex justify-center gap-2 mt-8 mb-4">
-                {characters.map((_, idx) => (
+                {allCharacters.map((_: Character, idx: number) => (
                     <button
                         key={idx}
                         onClick={() => emblaApi?.scrollTo(idx)}
@@ -319,7 +207,6 @@ export default function CharactersCarousel () {
                     />
                 ))}
             </div>
-            
-       </div>
-    )
+        </div>
+    );
 }

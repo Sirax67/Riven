@@ -458,7 +458,7 @@ function History () {
             </Link>
 
             <Link 
-              href='/StoryReader'
+              href='/AddStory'
               className='
                 group
                 mt-2

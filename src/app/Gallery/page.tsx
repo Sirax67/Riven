@@ -147,6 +147,7 @@ export default function Gallery() {
               item={item} 
               index={index}
               onClick={() => openModal(item, index)}
+              
             />
           ))}
         </div>
@@ -191,7 +192,7 @@ export default function Gallery() {
                 src={selectedImage.image}
                 alt={selectedImage.title}
                 fill
-                className="object-contain"
+                className="object-contain "
               />
             </div>
             
