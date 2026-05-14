@@ -143,7 +143,7 @@ function Welcome() {
         <Image
           className='object-center object-cover'
           alt='middle'
-          src="/images/welcome/SecondLayer (2).png"
+          src="/images/welcome/SecondLayer.png"
           fill
           priority
           sizes="100vw"
