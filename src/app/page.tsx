@@ -27,7 +27,7 @@ export default function Home() {
 function useScrollAnimation() {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLElement | null>(null);
-  const [hasAnimated, setHasAnimated] = useState(false); // Для однократной анимации
+  const [hasAnimated, setHasAnimated] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -38,7 +38,7 @@ function useScrollAnimation() {
         }
       },
       {
-        threshold: 0.1, // Уменьшили до 10% для более быстрого срабатывания
+        threshold: 0.1,
         rootMargin: '0px 0px 0px 0px'
       }
     );
@@ -61,7 +61,17 @@ function useScrollAnimation() {
 function Welcome() {
   const { ref, isVisible } = useScrollAnimation();
   const [scrollY, setScrollY] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const rafRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     let ticking = false;
@@ -89,6 +99,13 @@ function Welcome() {
     };
   }, []);
 
+  const getParallaxValue = (speed: number) => {
+    if (isMobile) {
+      return scrollY / (speed * 2);
+    }
+    return scrollY / speed;
+  };
+
   return (
     <section 
       ref={ref as any}
@@ -101,7 +118,7 @@ function Welcome() {
       <div 
         className="w-full absolute h-full bg-no-repeat z-0 overflow-hidden will-change-transform"
         style={{ 
-          transform: `translate3d(0, ${scrollY / 1.6}px, 0)`,
+          transform: `translate3d(0, ${getParallaxValue(1.6)}px, 0)`,
           willChange: 'transform'
         }}
       >
@@ -112,14 +129,14 @@ function Welcome() {
           fill
           priority
           sizes="100vw"
-          quality={90}
+          quality={isMobile ? 75 : 90}
         />
       </div>
 
       <div 
         className="w-full absolute h-full bg-no-repeat z-10 overflow-hidden will-change-transform"
         style={{ 
-          transform: `translate3d(0, ${scrollY / 1.6}px, 0)`,
+          transform: `translate3d(0, ${getParallaxValue(1.6)}px, 0)`,
           willChange: 'transform'
         }}
       >
@@ -130,14 +147,18 @@ function Welcome() {
           fill
           priority
           sizes="100vw"
-          quality={90}
+          quality={isMobile ? 75 : 90}
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            target.style.display = 'none';
+          }}
         />
       </div>
 
       <div 
         className="w-full absolute h-full bg-no-repeat z-20 overflow-hidden will-change-transform"
         style={{ 
-          transform: `translate3d(0, ${scrollY / 2}px, 0)`,
+          transform: `translate3d(0, ${getParallaxValue(2)}px, 0)`,
           willChange: 'transform'
         }}
       >
@@ -148,14 +169,14 @@ function Welcome() {
           fill
           priority
           sizes="100vw"
-          quality={90}
+          quality={isMobile ? 75 : 90}
         />
       </div>
 
       <div 
         className="w-full absolute h-full bg-no-repeat z-30 overflow-hidden will-change-transform"
         style={{ 
-          transform: `translate3d(0, ${scrollY / 4}px, 0)`,
+          transform: `translate3d(0, ${getParallaxValue(4)}px, 0)`,
           willChange: 'transform'
         }}
       >
@@ -166,7 +187,7 @@ function Welcome() {
           fill
           priority
           sizes="100vw"
-          quality={90}
+          quality={isMobile ? 75 : 90}
         />
       </div>
       
