@@ -106,7 +106,6 @@ export default function ChapterPage() {
         </div>
       </div>
 
-      {/* Мобильное меню глав */}
       {isChaptersOpen && (
         <div className="
             fixed inset-0 z-30 bg-black/80 backdrop-blur-md 
@@ -150,7 +149,6 @@ export default function ChapterPage() {
         </div>
       )}
 
-      {/* Контент главы */}
       <div className="relative z-10 container mx-auto px-4 py-24">
         <div className={`max-w-3xl mx-auto transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <div className="text-center mb-12">

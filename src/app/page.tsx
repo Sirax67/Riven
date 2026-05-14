@@ -63,7 +63,6 @@ function Welcome() {
   const [scrollY, setScrollY] = useState(0);
   const rafRef = useRef<number | null>(null);
 
-  // Оптимизированный параллакс с requestAnimationFrame
   useEffect(() => {
     let ticking = false;
 
@@ -80,7 +79,7 @@ function Welcome() {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll(); // Инициализация
+    handleScroll(); 
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -98,7 +97,7 @@ function Welcome() {
         ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
       style={{ willChange: 'opacity, transform' }}
     >
-      {/* Слой 1 - задний фон */}
+
       <div 
         className="w-full absolute h-full bg-no-repeat z-0 overflow-hidden will-change-transform"
         style={{ 
@@ -117,7 +116,6 @@ function Welcome() {
         />
       </div>
 
-      {/* Слой 2 */}
       <div 
         className="w-full absolute h-full bg-no-repeat z-10 overflow-hidden will-change-transform"
         style={{ 
@@ -136,7 +134,6 @@ function Welcome() {
         />
       </div>
 
-      {/* Слой 3 - коза */}
       <div 
         className="w-full absolute h-full bg-no-repeat z-20 overflow-hidden will-change-transform"
         style={{ 
@@ -155,7 +152,6 @@ function Welcome() {
         />
       </div>
 
-      {/* Слой 4 - передний фон */}
       <div 
         className="w-full absolute h-full bg-no-repeat z-30 overflow-hidden will-change-transform"
         style={{ 
@@ -174,7 +170,6 @@ function Welcome() {
         />
       </div>
       
-      {/* Логотип */}
       <div className='absolute bottom-0 left-0 aspect-video h-[10vw] max-h-40 min-h-20 z-40 ml-4 md:ml-8 mb-4 md:mb-8'>
         <Image
           className='object-contain object-left-bottom'
@@ -291,7 +286,7 @@ function About () {
         '
         style={{ 
           transform: isLargeScreen 
-            ? `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(-85px) scale(1.06)`
+            ? `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(-125px) scale(1.06)`
             : 'none',
           transition: isLargeScreen && !isMouseInside ? 'transform 0.5s ease-out' : 'none',
         }}
@@ -388,7 +383,7 @@ function Characters () {
         ></Image>
       </div>
       
-      <h2 className='text-[clamp(20px,4vw,30px)] md:text-3xl w-full text-center font-bold text-white mb-6'>
+      <h2 className='text-[clamp(20px,4vw,30px)] md:text-3xl text-center font-bold text-white mb-6'>
           Персонажи
       </h2>
       
@@ -504,9 +499,10 @@ function History () {
             </Link>
           </div>
 
-          <div className='relative rounded-3xl aspect-video w-full lg:w-110 shadow-[0_0_40px_rgba(190,228,255,0.3)]'>
+          <div className='relative rounded-3xl aspect-video w-full lg:w-110 '>
             <Image 
-              src="/images/history/world.png"
+            className='rounded-3xl object-center object-cover'
+              src="/images/history/tree.jpg"
               alt="/"
               fill
               ></Image>

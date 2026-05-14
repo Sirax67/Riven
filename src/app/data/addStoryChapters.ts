@@ -465,7 +465,6 @@ export const addStoryChapters: Chapter[] = [
 }
 ];
 
-// Хелпер функции
 export function getAllAddStoryChapters() {
   return addStoryChapters;
 }

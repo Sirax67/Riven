@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft, X, ChevronLeft, ChevronRight, Calendar, User } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, Calendar, User } from 'lucide-react';
 import { galleryItems, categories, getGalleryItemsByCategory } from '@/app/data/gallery';
 
 function useScrollAnimation() {
@@ -89,7 +89,6 @@ export default function Gallery() {
         />
       </div>
 
-      {/* Верхняя панель - ТАК ЖЕ КАК НА СТРАНИЦЕ СЮЖЕТА */}
       <div className="fixed top-0 left-0 right-0 z-40 backdrop-blur-md py-4">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center">
@@ -113,12 +112,11 @@ export default function Gallery() {
       </div>
 
       <div className="relative z-10 container mx-auto mt-24 mb-20">
-        {/* Заголовок */}
+
         <h2 className='text-[clamp(20px,4vw,30px)] md:text-3xl w-full text-center font-bold text-white mb-12'>
           Галерея
         </h2>
 
-        {/* Категории */}
         <div className="flex flex-wrap justify-center gap-3 mb-12 px-4">
           {categories.map((category) => (
             <button
@@ -139,7 +137,6 @@ export default function Gallery() {
           ))}
         </div>
 
-        {/* Сетка галереи */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto px-4">
           {filteredItems.map((item, index) => (
             <GalleryItem 
@@ -159,7 +156,6 @@ export default function Gallery() {
         )}
       </div>
 
-      {/* Модальное окно */}
       {selectedImage && (
         <div 
           className="fixed inset-0 z-50 bg-black/95 backdrop-blur-lg flex items-center justify-center"
@@ -217,7 +213,6 @@ export default function Gallery() {
   );
 }
 
-// Компонент элемента галереи (СТИЛИ КАК В СТРАНИЦЕ СЮЖЕТА)
 function GalleryItem({ 
   item, 
   index, 

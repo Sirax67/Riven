@@ -1,4 +1,3 @@
-// app/data/chapters.ts
 export interface Chapter {
   id: number;
   title: string;
@@ -567,7 +566,6 @@ export const chapters: Chapter[] = [
   }
 ];
 
-// Вспомогательные функции
 export function getChapter(id: number): Chapter | undefined {
   return chapters.find(chapter => chapter.id === id);
 }
